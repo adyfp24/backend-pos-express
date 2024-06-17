@@ -9,7 +9,9 @@
   "author": "adyfp24",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.15.0"
+    "@prisma/client": "^5.15.0",
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2"
   },
   "devDependencies": {
     "prisma": "^5.15.0"
