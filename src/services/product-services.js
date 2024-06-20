@@ -4,7 +4,12 @@ const prisma = new PrismaClient();
 const createProduct = async (product) => {
     try {
         const newProduct = await prisma.product.create({
-            data: product
+            data: {
+                nama: product.nama,
+                stok: product.stok,
+                harga: product.harga,
+                jenisProdukId: product.jenisProdukId 
+            }
         });
         return newProduct;
     } catch (error) {

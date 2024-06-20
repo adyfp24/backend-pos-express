@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage",
-    "swagger": "node ./docs/swagger.js"
+    "swagger": "node ./docs/swagger.js",
+    "seed": "node ./prisma/seeders/seed.js"
   },
   "author": "adyfp24",
   "license": "ISC",

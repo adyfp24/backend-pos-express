@@ -14,7 +14,7 @@ const createProduct = async (req, res) => {
             nama,
             stok,
             harga,
-            jenisProductId : jenis_produk
+            jenisProdukId : jenis_produk
         }
         const newProduct = await productService.createProduct(product);
         if (newProduct) {
