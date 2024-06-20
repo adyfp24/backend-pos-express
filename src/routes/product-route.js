@@ -6,8 +6,8 @@ const productValidation = require('../validations/product-validation');
 
 router.get('/product', productController.getAllProduct);
 router.get('/product/:id', productController.getProductById);
-router.post('/product', productController.createProduct);
+router.post('/product', validate(productValidation.createProduct), productController.createProduct);
 router.delete('/product/:id', productController.deleteProduct);
-router.put('/product/:id', productController.updateProduct);
+router.put('/product/:id', validate(productValidation.updateProduct), productController.updateProduct);
 
 module.exports = router;
