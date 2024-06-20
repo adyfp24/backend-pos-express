@@ -63,14 +63,37 @@ const deleteProduct = async (req, res) => {
             return successResponse(res, "data produk berhasil dihapus")
         }else{
             return notFoundResponse(res, "data produk gagal dihapus karena id tidak valid");
-        }
+        };
     } catch (error) {
-        return errorResponse(res, error)
+        return errorResponse(res, error);
     }
 }
 
-const updateProduct = () => {
+const updateProduct = async (req, res) => {
+    try {
+        const {
+            nama,
+            stok,
+            harga,
+            jenis_produk
+        } = req.body;
 
+        const product = {
+            nama,
+            stok,
+            harga,
+            jenisProdukId: jenis_produk
+        }
+        const productId = req.params.id;
+        const updatedProduct = await productService.updateProduct(productId, product);
+        if(updatedProduct){
+            return successResponse(res, "data produk berhasil diperbarui")
+        }else{
+            return notFoundResponse(res, "data produk gagal diperbarui karena id tidak valid");
+        };
+    } catch (error) {
+        return errorResponse(res, error);
+    }
 }
 
 module.exports = {

@@ -48,8 +48,19 @@ const deleteProduct = async (productId) => {
     }
 }
 
-const updateProduct = () => {
-
+const updateProduct = async (productId, productUpdate) => {
+    try {
+        const updatedProduct = await prisma.product.update({
+            where: { id: parseInt(productId) },
+            data: {
+                ...productUpdate,
+                updatedAt: new Date()
+            }
+        });
+        return updatedProduct;
+    } catch (error) {
+        throw new Error('internal server error : ' + error.message)
+    }
 }
 
 module.exports = {
