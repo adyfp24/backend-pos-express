@@ -17,8 +17,13 @@ const createProduct = async (product) => {
     }
 }
 
-const getAllProduct = () => {
-
+const getAllProduct = async () => {
+    try {
+        const allProduct = await prisma.product.findMany();
+        return allProduct
+    } catch (error) {
+        throw new Error('internal server error :' + error.message);
+    }
 }
 
 const getProductById = () => {

@@ -1,5 +1,6 @@
 const productService = require('../services/product-services');
-const { successResponse, clientErrorResponse, errorResponse, createdResponse } = require('../middlewares/response');
+const { successResponse, clientErrorResponse, errorResponse, 
+        createdResponse, notFoundResponse } = require('../middlewares/response');
 
 const createProduct = async (req, res) => {
     try {
@@ -14,7 +15,7 @@ const createProduct = async (req, res) => {
             nama,
             stok,
             harga,
-            jenisProdukId : jenis_produk
+            jenisProdukId: jenis_produk
         }
         const newProduct = await productService.createProduct(product);
         if (newProduct) {
@@ -27,8 +28,17 @@ const createProduct = async (req, res) => {
     }
 }
 
-const getAllProduct = () => {
-
+const getAllProduct = async (req, res) => {
+    try {
+        const allProduct = await productService.getAllProduct();
+        if (allProduct != 0) {
+            return successResponse(res, allProduct, "data seluruh produk berhasil didapat");
+        } else {
+            return notFoundResponse(res, "data produk tidak tersedia")
+        }
+    } catch (error) {
+        return errorResponse(res, error);
+    }
 }
 
 const getProductById = () => {
