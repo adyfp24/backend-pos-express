@@ -1,5 +1,5 @@
 const authService = require('../services/auth-service');
-const { successResponse, clientErrorResponse, errorResponse } = require('../middleware/response');
+const { successResponse, clientErrorResponse, errorResponse } = require('../middlewares/response');
 
 const login = async (req, res) => {
     try {
@@ -10,9 +10,9 @@ const login = async (req, res) => {
             return clientErrorResponse(res, loggedInUser.message);
         }
 
-        successResponse(res, loggedInUser.data, "login berhasil", 200);
+        return successResponse(res, loggedInUser.data, "login berhasil", 200);
     } catch (error) {
-        errorResponse(res, error);
+        return errorResponse(res, error);
     }
 };
 
@@ -23,9 +23,9 @@ const register = async (req, res) => {
         if(!registUser.success){
             return clientErrorResponse(res, registUser.message);
         }
-        successResponse(res, registUser.data, "registrasi user berhasil", 201);
+        return successResponse(res, registUser.data, "registrasi user berhasil", 201);
     } catch (error) {
-        errorResponse(res, error);
+        return errorResponse(res, error);
     }
 };
 

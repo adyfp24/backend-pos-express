@@ -24,7 +24,7 @@ const login = async (username, password) => {
         }
     } catch (error) {
         console.error(error);
-        throw new Error('Internal Server Error');
+        throw new Error('Internal Server Error : ' + error);
     }
 };
 
@@ -42,7 +42,7 @@ const register = async (username, password) => {
         };
     } catch (error) {
         console.log(error);
-        throw new Error('Internal server error');
+        throw new Error('Internal server error : ' + error);
     }
 };
 
