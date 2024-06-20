@@ -55,8 +55,18 @@ const getProductById = async (req, res) => {
     }
 }
 
-const deleteProduct = () => {
-
+const deleteProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const deletedProduct = await productService.deleteProduct(productId);
+        if(deletedProduct){
+            return successResponse(res, "data produk berhasil dihapus")
+        }else{
+            return notFoundResponse(res, "data produk gagal dihapus karena id tidak valid");
+        }
+    } catch (error) {
+        return errorResponse(res, error)
+    }
 }
 
 const updateProduct = () => {

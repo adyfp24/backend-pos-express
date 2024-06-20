@@ -28,15 +28,24 @@ const getAllProduct = async () => {
 
 const getProductById = async (productId) => {
     try {
-        const product = await prisma.product.findUnique({ where: {id: parseInt(productId)}});
+        const product = await prisma.product.findUnique({
+            where: { id: parseInt(productId) }
+        });
         return product;
     } catch (error) {
         throw new Error('internal server error :' + error.message);
     }
 }
 
-const deleteProduct = () => {
-
+const deleteProduct = async (productId) => {
+    try {
+        const deletedProduct = await prisma.product.delete({
+            where: { id: parseInt(productId) }
+        });
+        return deletedProduct;
+    } catch (error) {
+        throw new Error('internal server error :' + error.message);
+    }
 }
 
 const updateProduct = () => {
