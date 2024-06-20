@@ -8,7 +8,7 @@ const createProduct = async (product) => {
                 nama: product.nama,
                 stok: product.stok,
                 harga: product.harga,
-                jenisProdukId: product.jenisProdukId 
+                jenisProdukId: product.jenisProdukId
             }
         });
         return newProduct;
@@ -20,14 +20,19 @@ const createProduct = async (product) => {
 const getAllProduct = async () => {
     try {
         const allProduct = await prisma.product.findMany();
-        return allProduct
+        return allProduct;
     } catch (error) {
         throw new Error('internal server error :' + error.message);
     }
 }
 
-const getProductById = () => {
-
+const getProductById = async (productId) => {
+    try {
+        const product = await prisma.product.findUnique({ where: {id: parseInt(productId)}});
+        return product;
+    } catch (error) {
+        throw new Error('internal server error :' + error.message);
+    }
 }
 
 const deleteProduct = () => {

@@ -41,8 +41,18 @@ const getAllProduct = async (req, res) => {
     }
 }
 
-const getProductById = () => {
-
+const getProductById = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const product = await productService.getProductById(productId);
+        if(product != 0){
+            return successResponse(res, product, "data produk dengan id tersebut tersedia")
+        }else{
+            return notFoundResponse(res, "data produk dengan id tersebut tidak tersedia");
+        }
+    } catch (error) {
+        return errorResponse(res, error);
+    }
 }
 
 const deleteProduct = () => {
