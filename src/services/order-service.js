@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const { PDFDocument } = require('pdf-lib');
 
 const createOrder = async (products) => {
     try {
@@ -99,6 +100,112 @@ const formatTransactionResponse = (transaction) => {
     };
 };
 
+const exportStruck = async (transactionId, uangMasuk) => {
+    try {
+        const transaction = await prisma.transaction.findUnique({
+            where: { id: parseInt(transactionId) },
+            include: {
+                details: {
+                    include: {
+                        product: true
+                    }
+                }
+            }
+        });
+
+        if (!transaction) {
+            throw new Error('Transaction not found');
+        }
+
+        const payment = await prisma.payment.create({
+            data: {
+                total: transaction.total,
+                uangMasuk: parseInt(uangMasuk),
+                kembali: uangMasuk - transaction.total,
+                transactionId: transaction.id
+            }
+        });
+
+        const structData = {
+            transaction,
+            payment
+        };
+
+        const pdfBytes = await generateStructPDF(structData);
+        return pdfBytes;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
+const generateStructPDF = async (structData) => {
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage();
+
+    const { width, height } = page.getSize();
+    const fontSize = 12;
+    const margin = 50;
+
+    page.drawText('=== Struk Transaksi ===', {
+        x: margin,
+        y: height - margin,
+        size: fontSize,
+    });
+
+    let y = height - margin - fontSize - 10;
+
+    page.drawText(`ID Transaksi: ${structData.transaction.id}`, {
+        x: margin,
+        y,
+        size: fontSize,
+    });
+    y -= fontSize;
+    page.drawText(`Tanggal: ${formatDate(structData.transaction.tanggal)}`, {
+        x: margin,
+        y,
+        size: fontSize,
+    });
+    y -= fontSize * 1.5;
+
+    structData.transaction.details.forEach((detail) => {
+        const line = `${detail.product.nama} x ${detail.quantity} = ${detail.quantity * detail.product.harga}`;
+        page.drawText(line, {
+            x: margin,
+            y,
+            size: fontSize,
+        });
+        y -= fontSize;
+    });
+
+    y -= fontSize * 1.5;
+
+    page.drawText(`Total: ${structData.transaction.total}`, {
+        x: margin,
+        y,
+        size: fontSize,
+    });
+    y -= fontSize;
+    page.drawText(`Uang Masuk: ${structData.payment.uangMasuk}`, {
+        x: margin,
+        y,
+        size: fontSize,
+    });
+    y -= fontSize;
+    page.drawText(`Kembalian: ${structData.payment.kembali}`, {
+        x: margin,
+        y,
+        size: fontSize,
+    });
+
+    const pdfBytes = await pdfDoc.save();
+    return pdfBytes;
+};
+
+function formatDate(date) {
+    return new Date(date).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+}
+
 module.exports = {
     createOrder,
+    exportStruck
 };

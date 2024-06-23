@@ -19,7 +19,8 @@
     "express": "^4.19.2",
     "http-status": "^1.7.4",
     "joi": "^17.13.3",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "pdf-lib": "^1.17.1"
   },
   "devDependencies": {
     "jest": "^29.7.0",
