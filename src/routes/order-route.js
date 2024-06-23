@@ -5,6 +5,6 @@ const { validate } = require('../middlewares/validator');
 const orderValidation = require('../validations/order-validation');
 
 router.post('/order', validate(orderValidation.createOrder), orderController.createOrder);
-router.post('/order/:id/struct/', orderController.exportStruct);
+router.post('/order/:id/struct/', validate(orderValidation.exportOrder), orderController.exportStruct);
 
 module.exports = router;
