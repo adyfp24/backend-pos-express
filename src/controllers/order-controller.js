@@ -2,12 +2,12 @@ const orderService = require("../services/order-service");
 const { successResponse, clientErrorResponse, errorResponse, 
     createdResponse, notFoundResponse } = require('../middlewares/response');
 
-const createOrder = async () => {
+const createOrder = async (req, res) => {
     try {
         const { products } = req.body;
         const newOrder = await orderService.createOrder(products);
-        if(!newOrder){
-            return createdResponse(res, 'pesanan berhasil diproses')
+        if(newOrder){
+            return createdResponse(res, newOrder, 'pesanan berhasil diproses')
         }else{
             return clientErrorResponse(res, 'pesanan gagal diproses')
         }
