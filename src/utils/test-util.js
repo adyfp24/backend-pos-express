@@ -25,8 +25,14 @@ const removeTestProduct = async () => {
     await prisma.$disconnect();
 }
 
+const removeTestOrder = async () => {
+    await prisma.product.deleteMany();
+    await prisma.$disconnect();
+}
+
 module.exports = {
     removeTestUser,
     createTestUser,
-    removeTestProduct
+    removeTestProduct,
+    removeTestOrder
 };
