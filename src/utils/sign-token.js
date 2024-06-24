@@ -5,4 +5,6 @@ const generateJWT = (idUser) => {
     return apiToken;
 }
 
-module.exports = generateJWT
+module.exports = {
+    generateJWT
+}

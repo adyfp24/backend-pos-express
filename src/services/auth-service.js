@@ -30,12 +30,18 @@ const login = async (username, password) => {
 
 const register = async (username, password) => {
     try {
-        const isUsernameExist = await prisma.user.findUnique({ where: { username } });
+        const isUsernameExist = await prisma.user.findUnique({ where: { username: username } });
         if (isUsernameExist) {
             return { succes: false, message: "username telah digunakan" }
         }
-        const hashedPassword = bcrypt.hash(password, 10);
-        const newUser = await prisma.user.create({ username: username, password: hashedPassword });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await prisma.user.create({
+            data: {
+                username: username, 
+                password: hashedPassword
+            }
+        });
+
         return {
             success: true,
             data: newUser,
