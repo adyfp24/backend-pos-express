@@ -20,7 +20,13 @@ const createTestUser = async () => {
     });
 };
 
+const removeTestProduct = async () => {
+    await prisma.product.deleteMany();
+    await prisma.$disconnect();
+}
+
 module.exports = {
     removeTestUser,
-    createTestUser
+    createTestUser,
+    removeTestProduct
 };
