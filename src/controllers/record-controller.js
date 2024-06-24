@@ -8,6 +8,10 @@ const getTransactionRecord = async (req, res) => {
 
         const transactionRecords = await recordService.getTransactionRecord(month, year);
 
+        if (transactionRecords.length === 0) {
+            return res.status(404).json({ message: `No transaction records found for ${month} ${year}.` });
+        }
+
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Transaction Records');
 
