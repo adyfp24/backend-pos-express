@@ -1,4 +1,5 @@
 const orderService = require("../services/order-service");
+const midtransService = require("../services/midtrans-service")
 const { successResponse, clientErrorResponse, errorResponse,
     createdResponse, notFoundResponse } = require('../middlewares/response');
 const fs = require('fs');
@@ -7,6 +8,7 @@ const path = require('path');
 const createOrder = async (req, res) => {
     try {
         const { products } = req.body;
+        
         const newOrder = await orderService.createOrder(products);
         if (newOrder) {
             return createdResponse(res, newOrder, 'pesanan berhasil diproses')
