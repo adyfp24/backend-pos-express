@@ -5,6 +5,7 @@ const authRoutes = require('./routes/auth-route');
 const productRoutes = require('./routes/product-route');
 const orderRoutes = require('./routes/order-route');
 const recordRoutes = require('./routes/record-route');
+const midtransRoutes = require('./routes/midtrans-route');
 
 app.use(cors());
 app.use(express.json());
@@ -17,5 +18,6 @@ app.use('/api/v1/', authRoutes);
 app.use('/api/v1/', productRoutes);
 app.use('/api/v1/', orderRoutes);
 app.use('/api/v1/', recordRoutes);
+app.use('/api/v1/', midtransRoutes);
 
 module.exports = app;

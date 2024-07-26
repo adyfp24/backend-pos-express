@@ -1,15 +1,15 @@
 const midtransClient = require("midtrans-client");
 
-const createSnap = (transactionData) => {
+const createSnap = async (transactionData) => {
     try {
         const snap = new midtransClient.Snap({
             isProduction: false,
-            serverKey: process.env.SERVER_KEY,
-            clientKey: process.env.CLIENT_KEY
+            serverKey: process.env.SERVER_KEY || "",
+            clientKey: process.env.CLIENT_KEY || ""
         });
 
-        let snapToken = snap.createTransaction(transactionData);
-        return snapToken;
+        let snapToken = await snap.createTransaction(transactionData);
+        return snapToken.token;
     } catch (error) {
         throw new Error(error.message);
     }
